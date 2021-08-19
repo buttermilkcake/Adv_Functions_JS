@@ -1,0 +1,167 @@
+/*3 imp things with objects: reference type, context, instantiation*/
+/*1. Reference Type. If type below into console, the response we get is false. A reference type, which is a non-primitive type, is not defined by the programming languages. Primitive js types such as numbers, strings like 'hello', boolean(true, false), null and undefined are primitive types because they are defined by the programming lang we use them with. A reference type is created by the programmer. Also see paper notes on this, diagram.*/
+[] === [];
+
+var object1 = ( value: 10 );
+var object2 = object1;
+var object3 = { value: 10 };
+/*object 2 is reference the info in object1, which is stored in box1. Object 3 creates a new box, box3 to store object3 in*/
+
+/*2. Context. Context gets confused with scope. Scope is created when we see curly brackets*/
+functionb() {
+	/*the curly brackets create a scope*/
+	let a = b;
+}
+
+/*how is context different than above? Context tells you where we are within the object. This is a special word in js. This is the window object. 'this' refers to what object it's inside of */
+console.log(this)
+console.log(this === window) /* the answr comes back true in console.*/
+window.alert === .alert()
+
+/*The below still refers to this. The info to the left of the dot is the window. This below refers to what obj it's inside of, which is a()*/
+function a() {
+	console.log(this);
+}
+
+var object1 = ( value: 10 );
+var object2 = object1;
+var object3 = { value: 10 };
+
+const ojbect4 = {
+	a: function() {
+		console.log(this);
+	}
+}
+/*If run the object4 function above in console, would call it in console with object4.a(). a then becomes the object. This is instatiation - when you make a copy of an object and re-use the code. You're making multiple copies of an object.*/
+
+/*Instantiation. A class is something I want to make a copy of. Constructor when you create a player class says everytime I'm making a copy of a player, the first thing that gets run is the constructor function. ANd this constructor func is gonna create these properties (name, type) on the player object. Now we can create anything we want for the player, such as the introduce method below. This player class, any player that I create, will always be able to introduce themself. They'll also have this.name and this.type. The reason we use 'this' is that when we create a player, we can access the name and type property. In order to access the player and make copies of it, you'll have to run a constructor, which is all the properties and the methods that you want the player to have. You can also create methods that players can have, and anytime you want to access a property within the constructor, you'll use this.name. If I want to use introduce, I'll have to do this.introduce. Syntax for strings in console log below is back tics.*/
+class Player {
+	constructor(name, type) {
+		console.log('player', this);
+		this.name = name;
+		this.type = type;
+	}
+	introduce() {
+		console.log(`Hi I am ${this.name}, I'm a ${this.type}`)
+	}
+}
+
+/*This adds on top of whatever Player has. Anytime we extend something, we need to call the constructor function of the player - we have to do something called super. We have a class Player and a class Wizard that extends Player and then we have 2 variables that we created, wizard1 and wiard2. THe program's going to see the new keyword and anytime it sees the new keyword, it says oh, we're creating a new wizard, and this wizard is going to have 2 parameters, Shelly and Healer, so it's going to go to the Wizard class and it says hey Wizard, I want you to extend Player. So it's going to go to the constructor and it's gonna see this super, and what this does is it takes us up to the constructor of Player and it runs the stuff in class Player and then it attaches 'this' as the wizard. Then it introduces the new function and then it adds the play function. If you type into console wizard1.play() you'll get back Wheee I'm a Healer. You have to copy and paste all this code first of course. You can also type in wizard1.introduce(). You have to run all the code again and then you can do the same thing with wizard2*/
+class Wizard extends Player {
+	constructor(name, type) {
+		super(name, type)
+		console.log('wizard', this);
+	}
+	play(){
+		console.log(`Wheeee I'm a ${this.type}`);
+	}
+}
+
+const wizard1 = new Wizard('Shelly', 'Healer');
+const wizard2 = new Wizard('Shawn', 'Dark Magic');
+
+/*classical inheritance is the old way. Prototype is a word used in classical inheritance - you want to avoid this.*/
+
+/*Pass by Value vs Pass By Reference*/
+/*Below are primitive types. They are passed by value. a and b both have addresses where their assigned values are at*/
+var a = 5;
+var b = 10;
+
+/*What happens if we do this. These are primitive types that are passed by value*/
+var a = 5;
+var b = a;
+b++; /*this is telling us to add 1 to the value of a, which is 5 here*/
+console.log(a) /*when I do this, I have 5*/
+console.log(b) /*when I follow with this, I have 6*/
+
+/*what js did above was copy the primitive type value 5, so that now b has a ref to the value primitive type 5. All we did was copy the value. Pass by value - we copy that value and we create it someplace else in memory.*/
+
+/*Pass by reference. Both of the passwords were updated to easypeasy. JS objects stored in memory and referenced, we don't copy them. obj1 & 2 below are both pointing somewhere in memory to a shelf that contains obj1 info. When you change obj2.password you're saying change this object in memory. By just having one object, we're saving space in memory instead of copying and cloning and loading up our memory. This could be bad when someone else changes a property on that reference object - something we need to be careful of.*/
+var a = 5;
+var b = a;
+b++;
+let obj1 = {name: 'Yao', password: '123'};
+let obj2 = obj1
+
+obj2.password = 'easypeasy'
+
+console.log(obj1)
+console.log(obj2)
+
+/*This will modify object c, which is an array and will add the value of d onto the end of it.*/
+var a = 5;
+var b = a;
+b++;
+var c = [1,2,3,4,5];
+var d = c;
+d.push(18762157);
+console.log(d) 
+
+
+/*This below will copy c and push it into the empty array in d. This is a primitive type method, passing by value.*/
+var a = 5;
+var b = a;
+b++;
+var c = [1,2,3,4,5];
+var d = [].concat(c);
+d.push(18762157);
+console.log(d) 
+
+/*How to copy objects. Have to use clone, need receptable to copy object in to and the source.*/
+var a = 5;
+var b = a;
+b++;
+let obj = {a: 'a', b: 'b', c: 'c'};
+let clone = Object.assign({}, obj);
+let clone2 = {...obj}
+obj.c = 5;
+console.log(obj)
+console.log(clone)
+console.log(clone2)
+
+
+/*we have an object referenced in memory and inside of that object we have another pointer to another place in memory (c below). This still works. */
+var a = 5;
+var b = a;
+b++;
+let obj = {a: 'a', 
+b: 'b', 
+c: {deep: 'try and copy me'}
+};
+let clone = Object.assign({}, obj);
+let clone2 = {...obj}
+obj.c = 5;
+console.log(obj)
+console.log(clone)
+console.log(clone2)
+
+
+
+/*Ea obj is passed by reference, even though we cloned the initial object, this is what we call a shallow clone. It cloned the first level, but within the object, there was another address to another object. To deep clone, you use json the super command below. It turns everything in the object into a string and then it parses that string and turns everything back into an object. superClone version did a deep clone. Be careful with deep clone, it can have performance implications. If the object is extremely deep, a massive object, it may take awhile. */
+let obj = {a: 'a', 
+b: 'b', 
+c: {deep: 'try and copy me'}
+};
+let clone = Object.assign({}, obj);
+let clone2 = {...obj}
+let superClone = JSON.parse(JSON.stringify(obj))
+obj.c.deep = 'hahaha';
+console.log(obj)
+console.log(clone)
+console.log(clone2)
+console.log(superClone)
+
+/*Type Coercion. This can get convoluted, but you don't have to know every single detail, many things you shouldn't be using. When the operants (things to left and right of operator) are different types, such as number or string type, one of them will be converted into an equivalent value by the js engine. The js engine is going to say 1 = to string 1..hm....I think you mean number 1, so it will convert the string 1 to number 1 and compare #1 to #1. Type coercion means the language converting a certain type to another type. All languages have type coercion. JS has an especially heavy type coercion. In JS, type coercion happens when you use the == (double equal). == in js says compare 2 values and coerce one to match the other. === in js says compare 2 values but don't try and coerce the values. There is never a good time to use == in js. It's not predictable code. Always use === instead. Type coercion can happen with if statements.*/
+1 1 == '1' /*answr here is true, since js coerced the string to become a number.*/
+1 === '1' /*answer here is false since we used triple equal*/ 
+
+/*Here js coerces 1 to equal true. Here js says I want a boolean here, so I'm going to take your value and turn it into a boolean */
+if (1) {
+	console.log(5)
+}
+
+/*In js, there is a concept of -0 and +0. Object.is works much like === except in a few cases like -0 and +0. NaN = not a number.*/
+-0 === +0 /*this comes back true*/
+Object.is(-0, +0) /*this comes back false*/
+NaN ==== NaN /*this comes back false*/
+Object.is(NaN, NaN) /*this comes back true*/
