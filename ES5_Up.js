@@ -150,4 +150,46 @@ Object.entries(obj).map(value => {
 	return value[1] + value[0].replace('username', '');
 })
 
-/*Async Await*/
+/*ES10*/
+/*flat() - A method we can use on arrays. If you have several arrays within an array, it will flatten them all into 1 array.*/
+
+const array = [1,[2,3],[4,5]]
+array.flat()
+
+/*this is only flattened 1 level. We can tell it how many layers to flatten it. */
+const array2=[1,2,[3,4[5]]]
+array2.flat()
+
+const array2=[1,2,[3,4[5]]]
+array2.flat(2)/*tell it how many layers you want to flatten it.*/
+
+const mucho = [['flower'], 'sun', 'moon', ['stars', 'elves'], [[[['yellow_rose']]]]]
+mucho.flat(50)
+
+/*this cleans up empty data*/
+const entries = ['bob', 'sally',,,,,,,,,'cindy']
+entries.flat()
+
+/*Uses the map method on an array. For ea item that we're going to flatten, we're going to get a creature and ea creature is going to get a moon as a friend. So we're flattening our mucho array and mapping over this flattened array and doing a map function to it.*/
+const mucho = [['flower'], 'sun', 'moon', ['stars', 'elves'], [[[['yellow_rose']]]]]
+const muchoChaos = mucho.flatMap(creature => creature + 'moon')
+/*will call this in console by typing in muchoChaos*/
+
+const userEmail = '       eddytheeagle@gmail.com'
+const userEmail2 = 'johnnydangerous@gmail.com     '
+console.log(userEmail.trimStart())
+console.log(userEmail2.trimEnd())
+
+/*fromEntries - transforms a list of key value pairs into an object*/
+userProfiles = [['commanderTom', 23], ['derekZlander', 40], ['hansel', 18]]
+Object.fromEntries(userProfiles)
+Object.entries(obj) /*this is from ES8 and it transforms an object into a list of key value pairs*/
+
+/*try catch block allows us to try a piece of code and if there are any errors, to catch them.*/
+try {
+	4+5
+	true + 'hi' /*this is type coercion and true is changed into a string*/
+	bob + 'hi'
+} catch {
+console.log('you messed up')	
+}
