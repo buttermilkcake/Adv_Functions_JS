@@ -1,0 +1,56 @@
+/*What is a program? 
+A program has to allocate memory, otherwise we wouldn't be able to have variables, or even have a file on our computer. It also has to parse and execute scripts, which means read and run commands.
+
+We also know that there is the js engine that each browser emplements, in Chrome its the V8 engine. The V8 reads the js that we write and changes into machine executable instructions for the browser. The engine consists of 2 parts:
+1. Memory Heap - this is where the memory allocation happens.
+2. Call Stack - this is where your code is read and executed - it tells you where you are in the program.*/
+
+const a = 1;
+const b = 10;
+const c = 100;
+/*Memory Heap
+The above variables allocate memory. When we assign this, the js engine is going to remember that a has a value of 1. We've just used up the memory heap. What is an issue that we see with this as we add more variables? There is something called a Memory Leak. In the memory heap, we have a limited amount of memory that we can actually have. If you keep increasing the number of variables that we have. Memory leaks happen when you have unused memory just laying around, like when we're no longer using variable, but we never clean it up so its still there. It fills up the memory heap. This is why global variables such as the ones above are bad. Global variables are bad because if we forget to clean up after ourselves, we fill up this memory heap and eventually the browser won't be able to work.*/
+
+/*Call Stack*/
+console.log(1);
+console.log(2);
+console.log(3);
+/*The call stack is what reads and executes our scripts. So what the call stack does is reads the first line above, it gets put into the call stack, the js engine says console.log has been added, let's pop it on to the call stack and then it runs it and creates 1, then it says ok, I'm removing the 1st console log because I just finished running it, I'm going to place the 2nd console into the call stack and then it reads it and executes 2 and then it removes it and then gets console log 3 and so on.*/
+
+const one = () => {
+	const two = () => {
+		console.log('4');
+	}
+	two();
+} 
+/*If we type one() into the console, we get 4. The call stack 1st ran the one function, and as we enter into this call stack, we see that we run another function, 2, so 2 goes on top of call stack and now we run the 2 function, which is console.log, so we have console.log('4') that's run inside of the 2 function. Now that we've read this, the call stack is going to say, alright, there's nothing else inside of this, so I'm going to run console log 4, so it's going to print out #4, it's going to remove that frm the call stack and then remove the 2 and then remove the 1 b/c it's just been called. The call stack is now empty.*/
+
+/*JS is single threaded language that can be non-blocking
+Single threaded means that it has only 1 call stack, it can only do one thing at a time. Call Stack is first in, last out. So whatever's at the top of the call stack gets run first, then below that, below that, etc until call stack is empty. Other languages can have multiple call stacks and these are called multi threaded. Why was js designed to be single threaded? Running code on a single thread can be easier - just have 1 thing to worry about. With multi threaded environments you can have dead locks. 
+
+Synchronous programming - line 1 gets executed and then line 2 and then line 3. The ladder can't start before the first finishes. Console log 2 doesn't start until console log finishes. To create a stack overflow see below
+
+This is something called recursion - a function that calls itself - and in this case keeps looping over and over. We keep adding foo to the call stack over and over and we have a stack overflow.*/
+function foo() {
+	foo()
+}
+
+foo()
+
+/*JS is single threaded, only one statement is executed at a time. If one line of code is really big in a clump of code, it will take a long time to run and if this was on a website, the webiste would freeze until the task is done. With synchronous tasks, if we have one function that takes up a lot time, it's going to hold up the line. For this, we need something that is non-blocking - how do we do this? Asynchronous to the rescue! Asynchronous is like a behavior.  Synchronous is predictable and stable, but slow. When we have to do things that take a lot of time like image processing or api calls, we need something more than just synchronous tasks.*/ 
+
+console.log(1);
+setTimeout(() => {
+	console.log(2);
+}, 2000)
+console.log(3);
+/*asynchronous programming. setTimeout is a function that comes within our browsers and allows us to create a time out. We can just give it the first parameter is the function we want to run and the 2nd parameter is how long we want to wait. In the above ex, the console will print them out as 1,3,2.*/
+
+/*JS Run-Time Environment(JSRTE) - we need more than the JS engine. JSRTE is part of the browser. On top of the engine they ahve web apis, callbakc queue and an event loop. Set timeout is part of the web api, it's not technically part of js, it's what the broswers give us to use.*/ 
+/*console.log('1') gets put into the call stack and that gets run, so we've logged console log to th browser. We then get set timeout into our callstack b/c we finished the first task and going to the second one. The call stack is going to say ok, I have a set timeout and b/c set timeout is not part of js, but part of the web api, it has a special characteistic, it triggers the web api and says hey, set timeout has just been called and b/c we notify the web api, we can pop it out of the call stack. The web api starts a timer here of 2 seconds (2000), in 2 sec, you have to do s/t and b/c the call stack is empty, the js engine goes to console.log(3) and exectues it. After 2 seconds when our time limit is up, the web api is gonna say ok, set timeout should be done, let's see what's inside of it. It's gonna say hey, set timeout is done, we have a call back and this call back of set timeout we added to the call back queue saying we have to run s/t and we're ready to run it. The event loop checks and says hey, is the call stack empty and it keeps checking all the time if the call stack is empty. If it is empty, the js engine will say hey, do we have any callbacks? It's gonna check the callback queue and say hey is a/t in there b/c if it's empty we can throw s/t more in there. Yes, we have console.log(2), so is put into call stack and the call back queue sees this and will run the function and will pop it out of the call stack and then we're done with the callback and we remove it.*/
+
+/*What if you change the timeout length to 0? The order will be the same as above. It will still go thru the process, so it will still take longer.*/
+
+/*If you want to load tweets onto a web page synchronously, visitors to your site won't be able to do a/t until those tweets are loaded. If you have a question for your teacher. To reach out sychronously, you call, wait while the phone rings and then ask them when they answer. Asynchronous is you text instead and wait for an answer and do other stuff while waiting for an answer. 
+
+Under Web APIs we have DOM, AJAX, Timeout. Call back functions include event listeners like click funcions (this is an ansynchronous process - onclick*/ 
