@@ -193,3 +193,56 @@ try {
 } catch {
 console.log('you messed up')	
 }
+
+/*ES2020*/
+/*BigInt - this is a new type. can type into console typeof 4 and it will return number. BigInt stands for big integer. MAX_SAFE_INTEGER */
+typeof 1n /*this returns bigint in console. More on bigints here: https://javascript.info/bigint*/
+Number.MAX_SAFE_INTEGER /*can enter this into console*/
+/*BigInt is what we use we want to us a number that is larger than the max safe integer and we want to do calculations with it. We can’t mix bigints and regular numbers. We should explicitly convert them if needed: using either BigInt() or Number(), like this:*/
+let bigint = 1n;
+let number = 2;
+
+// number to bigint
+alert(bigint + BigInt(number)); // 3
+
+// bigint to number
+alert(Number(bigint) + number); // 3
+
+/*Optional Chaining Operator ?.*/
+let will_pokeman = {
+	pikachu: {
+		species: 'Mouse Pokemon',
+		height: 0.4,
+		weight: 6,
+		power: ''
+	}
+}
+
+let andrei_pokeman = {
+	raichu: {
+		species: 'Mouse Pokemon',
+		height: 0.8,
+		weight: 30,
+		power: 'lightning'
+	}
+}
+/*old way*/
+if (andrei_pokeman.pikachu && andrei_pokeman.pikachu.weight) {
+	let weight2 = andrei_pokeman.pikachu.weight	
+} else {
+	let weight2 = undefined
+	console.log(weight2) 
+}
+
+/*chaining method*/
+let weight3 = andrei_pokeman?.pikachu?.weight
+console.log(weight3)
+
+/*Nullish Coalescing Operator ??*/
+let power = andrei_pokeman?.pikachu?.power || 'no power'
+console.log(power)
+/*The or || operator works by checking if the statement is truth-y. If it's not truth-y, then it resorts to no power. The empty string for power under will_pokeman evaluates as false. But if we want to check if the power is truly an empty string - we can do the nullish coalescent - it checks if it is null or undefined rather than truth-y. So the let power statement would look like this. this operator is useful when you would normally use the or command.*/
+let power = andrei_pokeman?.pikachu?.power ?? 'no power'
+console.log(power)
+
+//The value null represents the intentional absence of any object value. It is one of JavaScript's primitive values and is treated as falsy for boolean operations.//
